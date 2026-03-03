@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chloé Girard — Cloud-Native • Kubernetes • CI/CD • Go • C# • AI</title>
+  <meta name="description" content="Brutalist-creative portfolio summary highlighting cloud-native apps, Kubernetes, CI/CD, Golang, C#, Python, LLM/AI, and process optimization." />
+
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --paper:#f7f3e8;
+      --ink:#101114;
+      --acid:#d9ff2f;
+      --mag:#ff2fd9;
+      --cyan:#2ff3ff;
+      --muted:rgba(16,17,20,.68);
+      --line:rgba(16,17,20,.18);
+      --shadow: 10px 10px 0 rgba(16,17,20,.9);
+      --radius: 18px;
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(217,255,47,.12), transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(255,47,217,.10), transparent 55%),
+        radial-gradient(900px 700px at 60% 90%, rgba(47,243,255,.10), transparent 55%),
+        var(--bg);
+      color:var(--paper);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+
+    /* Brutalist grain */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.25;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 72px;}
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      position:sticky; top:0; z-index:10;
+      padding:14px 18px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,11,13,.62);
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .brand{
+      display:flex; align-items:baseline; gap:10px; letter-spacing:.3px;
+      font-weight:800;
+    }
+    .brand .tag{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-weight:700;
+      font-size:12px;
+      padding:4px 8px;
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:999px;
+      opacity:.9;
+    }
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      padding:8px 10px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .chip:hover{transform: translateY(-2px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.32)}
+    .chip .dot{width:8px;height:8px;border-radius:2px;background:var(--acid); box-shadow:0 0 0 2px rgba(217,255,47,.22)}
+
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: var(--paper);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 18px;
+      box-shadow: 10px 10px 0 rgba(16,17,20,.9);
+      position:relative;
+      overflow:hidden;
+    }
+    .card.pad{padding:22px}
+    .card.black{
+      background: #0f1013;
+      color: var(--paper);
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 10px 10px 0 rgba(255,255,255,.14);
+    }
+
+    .sticker{
+      position:absolute;
+      top:16px; right:16px;
+      transform: rotate(6deg);
+      background: var(--acid);
+      color: var(--ink);
+      border:2px solid var(--ink);
+      border-radius: 999px;
+      padding:8px 12px;
+      font-weight:900;
+      letter-spacing:.3px;
+      font-size:12px;
+      box-shadow: 6px 6px 0 rgba(16,17,20,.9);
+      user-select:none;
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(32px, 4vw, 54px);
+      line-height:1.02;
+      letter-spacing:-.7px;
+    }
+    .sub{
+      margin:0;
+      font-size: clamp(14px, 1.4vw, 18px);
+      color: rgba(16,17,20,.78);
+      max-width: 70ch;
+      line-height:1.55;
+    }
+    .sub strong{background:linear-gradient(90deg, var(--acid), var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .btn{
+      appearance:none; border:2px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      padding:10px 12px;
+      border-radius: 14px;
+      font-weight:800;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:10px;
+      transition: transform .15s ease;
+      box-shadow: 6px 6px 0 rgba(16,17,20,.9);
+    }
+    .btn:hover{transform: translateY(-2px)}
+    .btn.alt{
+      background: transparent;
+      color: var(--ink);
+    }
+    .btn .k{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      padding:2px 6px;
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:8px;
+      opacity:.85;
+    }
+    .btn.alt .k{border-color: rgba(16,17,20,.25)}
+
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px}
+    @media (max-width: 920px){ .grid2{grid-template-columns:1fr} }
+
+    .sectionTitle{
+      display:flex; align-items:baseline; justify-content:space-between; gap:14px;
+      margin:0 0 14px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.2px;
+    }
+    .sectionTitle .hint{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      opacity:.75;
+    }
+
+    .skills{display:flex; flex-wrap:wrap; gap:10px}
+    .pill{
+      border:2px solid var(--ink);
+      border-radius:999px;
+      padding:8px 10px;
+      background: #fff;
+      font-weight:800;
+      font-size:13px;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      box-shadow: 4px 4px 0 rgba(16,17,20,.9);
+      white-space:nowrap;
+    }
+    .pill i{
+      width:10px; height:10px; display:inline-block;
+      background: var(--acid);
+      border:2px solid var(--ink);
+      border-radius:3px;
+    }
+    .pill:nth-child(3n) i{background: var(--mag)}
+    .pill:nth-child(3n+1) i{background: var(--cyan)}
+
+    .metricRow{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 520px){ .metricRow{grid-template-columns:1fr} }
+    .metric{
+      border:2px solid rgba(255,255,255,.18);
+      border-radius: 16px;
+      padding:14px;
+      background: rgba(255,255,255,.06);
+    }
+    .metric .label{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      opacity:.8;
+    }
+    .metric .value{
+      font-size:26px;
+      font-weight:900;
+      letter-spacing:-.4px;
+      margin-top:6px;
+    }
+    .metric .note{
+      margin-top:6px;
+      font-size:13px;
+      opacity:.85;
+      line-height:1.35;
+    }
+
+    .timeline{display:flex; flex-direction:column; gap:12px}
+    .job{
+      border:2px solid var(--ink);
+      border-radius: 16px;
+      padding:14px;
+      background: #fff;
+      box-shadow: 6px 6px 0 rgba(16,17,20,.9);
+    }
+    .jobHeader{
+      display:flex; gap:10px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap;
+    }
+    .jobHeader .role{font-weight:900; letter-spacing:-.2px}
+    .jobHeader .meta{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      color: rgba(16,17,20,.72);
+    }
+    .job ul{
+      margin:10px 0 0 18px;
+      padding:0;
+      color: rgba(16,17,20,.82);
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .projects{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 720px){ .projects{grid-template-columns:1fr} }
+    .proj{
+      border:2px solid rgba(255,255,255,.18);
+      border-radius: 16px;
+      padding:14px;
+      background: rgba(255,255,255,.06);
+    }
+    .proj .name{font-weight:900; letter-spacing:-.2px; margin:0 0 6px}
+    .proj .desc{margin:0; opacity:.88; line-height:1.45}
+    .badgeRow{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+    .badge{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.20);
+      padding:5px 8px;
+      border-radius:999px;
+      opacity:.95;
+    }
+
+    .footer{
+      margin-top:22px;
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;
+      opacity:.9;
+    }
+    .tiny{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      opacity:.75;
+    }
+
+    .cursor{
+      position:absolute;
+      left: -40px; top: 52%;
+      width: 160px; height: 160px;
+      border:2px dashed rgba(16,17,20,.25);
+      border-radius: 28px;
+      transform: rotate(-8deg);
+      opacity:.35;
+      animation: float 6s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes float{
+      0%,100%{transform: translateY(0) rotate(-8deg)}
+      50%{transform: translateY(-10px) rotate(-5deg)}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div>Chloé Girard</div>
+      <div class="tag">cloud-native / games</div>
+    </div>
+    <nav class="nav">
+      <a class="chip" href="#skills"><span class="dot"></span>Skills</a>
+      <a class="chip" href="#experience"><span class="dot"></span>Experience</a>
+      <a class="chip" href="#projects"><span class="dot"></span>Selected Work</a>
+      <a class="chip" href="#ai"><span class="dot"></span>AI</a>
+      <a class="chip" href="#contact"><span class="dot"></span>Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="card pad">
+        <div class="sticker">C# • Go • Python • K8s • CI/CD • AI</div>
+        <div class="cursor" aria-hidden="true"></div>
+
+        <h1>
+          I engineer
+          <span style="background:linear-gradient(90deg,var(--mag),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;">
+            high-performance distributed systems
+          </span>
+          that ship games faster.
+        </h1>
+
+        <p class="sub">
+          Senior Tools & Platform Engineer at <strong>Ubisoft</strong> with 10+ years building
+          <strong>low-latency, high-throughput</strong> services and
+          <strong>cloud-native platforms</strong>. I write production-grade
+          <strong>C#, Golang and Python</strong> and design <strong>Kubernetes-based CI/CD ecosystems</strong>
+          that scale across teams.
+        </p>
+
+        <p class="sub" style="margin-top:12px">
+          I combine deep engineering fundamentals with modern leverage —
+          integrating <strong>LLM/AI capabilities</strong> into workflows, tooling, analytics, and developer productivity.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn" href="https://www.linkedin.com/in/chlo%C3%A9-girard-2864b45b" target="_blank" rel="noreferrer">
+            LinkedIn <span class="k">↗</span>
+          </a>
+          <a class="btn alt" href="#contact">
+            Contact <span class="k">⌁</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- IMPACT SNAPSHOT -->
+      <div class="card black pad">
+        <div class="sectionTitle">
+          <h2>Impact snapshot</h2>
+          <div class="hint">brutal metrics, honest outcomes</div>
+        </div>
+
+        <div class="metricRow">
+          <div class="metric">
+            <div class="label">CI/CD visibility</div>
+            <div class="value">KPIs</div>
+            <div class="note">Designed metrics and dashboards to expose bottlenecks and improve delivery flow.</div>
+          </div>
+          <div class="metric">
+            <div class="label">Cloud-native delivery</div>
+            <div class="value">K8s</div>
+            <div class="note">AWS + Kubernetes-backed services supporting production pipelines.</div>
+          </div>
+          <div class="metric">
+            <div class="label">Performance engineering</div>
+            <div class="value">40Gbps</div>
+            <div class="note">Benchmarked systems to reach maximum hardware capacity (40Gbps).</div>
+          </div>
+          <div class="metric">
+            <div class="label">Cross-team leverage</div>
+            <div class="value">Advisor</div>
+            <div class="note">Technical advisor driving architecture decisions and DevOps adoption.</div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="tiny">Vibe: creative universe • video games • systems design</div>
+          <div class="tiny">Last update: <span id="today"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS + SELECTED WORK -->
+    <section class="grid2">
+      <div class="card pad" id="skills">
+        <div class="sectionTitle">
+          <h2>Core skills</h2>
+          <div class="hint">what I reach for first</div>
+        </div>
+
+        <div class="skills" aria-label="skills list">
+          <span class="pill"><i></i>C# / .NET Core / ASP.NET</span>
+          <span class="pill"><i></i>Golang (APIs + perf)</span>
+          <span class="pill"><i></i>Python (automation / AI)</span>
+          <span class="pill"><i></i>Kubernetes / Rancher</span>
+          <span class="pill"><i></i>AWS / Azure</span>
+          <span class="pill"><i></i>CI/CD Architecture</span>
+          <span class="pill"><i></i>Terraform / IaC</span>
+          <span class="pill"><i></i>MongoDB / EFCore / OData</span>
+          <span class="pill"><i></i>Observability KPIs</span>
+          <span class="pill"><i></i>Distributed storage</span>
+          <span class="pill"><i></i>Performance benchmarks</span>
+          <span class="pill"><i></i>LLM/AI integration</span>
+          <span class="pill"><i></i>Technical vision</span>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--line);margin:16px 0" />
+
+        <p style="margin:0;color:var(--muted);line-height:1.55">
+          I like infrastructure that feels like a good game loop: fast iteration, clear feedback,
+          and measurable progress — from code to shipped builds.
+        </p>
+      </div>
+
+      <div class="card black pad" id="projects">
+        <div class="sectionTitle">
+          <h2>Selected work</h2>
+          <div class="hint">systems with game-dev energy</div>
+        </div>
+
+        <div class="projects">
+          <div class="proj">
+            <h3 class="name">Golang API powering CI/CD game delivery</h3>
+            <p class="desc">
+              Production-grade API used by CI/CD pipelines to orchestrate, validate, and deliver game builds at scale.
+            </p>
+            <div class="badgeRow">
+              <span class="badge">Go</span><span class="badge">CI/CD</span><span class="badge">K8s</span><span class="badge">Release Engineering</span>
+            </div>
+          </div>
+
+          <div class="proj">
+            <h3 class="name">CI/CD metrics platform</h3>
+            <p class="desc">
+              Analytics + KPIs to expose pipeline bottlenecks and improve throughput across teams.
+            </p>
+            <div class="badgeRow">
+              <span class="badge">AWS</span><span class="badge">Kubernetes</span><span class="badge">BI</span><span class="badge">KPIs</span>
+            </div>
+          </div>
+
+          <div class="proj">
+            <h3 class="name">IaC “golden path” for platform services</h3>
+            <p class="desc">
+              Terraform + Kubernetes templates that standardize deployments while keeping escape hatches for reality.
+            </p>
+            <div class="badgeRow">
+              <span class="badge">Terraform</span><span class="badge">Helm</span><span class="badge">Rancher</span><span class="badge">DX</span>
+            </div>
+          </div>
+
+          <div class="proj">
+            <h3 class="name">High-throughput performance engineering</h3>
+            <p class="desc">
+              Benchmark design + performance-oriented practices to reach maximum hardware capacity (40Gbps).
+            </p>
+            <div class="badgeRow">
+              <span class="badge">Perf</span><span class="badge">Distributed</span><span class="badge">Low latency</span><span class="badge">40Gbps</span>
+            </div>
+          </div>
+        </div>
+
+        <p style="margin:14px 0 0; opacity:.9; line-height:1.5">
+          Think “level select” for platform work: each card is a system, a constraint set, and a shipped outcome.
+        </p>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE + CREATIVE UNIVERSE -->
+    <section class="grid2" id="experience" style="margin-top:18px">
+      <div class="card pad">
+        <div class="sectionTitle">
+          <h2>Experience</h2>
+          <div class="hint">from shipped tools to shipped games</div>
+        </div>
+
+        <div class="timeline">
+
+          <article class="job">
+            <div class="jobHeader">
+              <div>
+                <div class="role">Tools Programmer — Ubisoft</div>
+                <div class="meta">Feb 2016 – Present • Montreal</div>
+              </div>
+              <div class="meta">Platform • Cloud-native • Architecture</div>
+            </div>
+            <ul>
+              <li>Led the design and implementation of a mission-critical Golang API powering CI/CD pipelines responsible for game build orchestration and delivery.</li>
+              <li>Designed solutions to gather CI/CD data and provide metrics/KPIs to improve delivery processes using AWS, Kubernetes, and ASP.NET Core.</li>
+              <li>Provided Infrastructure as Code for backend tool services using Terraform, Kubernetes, Rancher, AWS, and GitLab.</li>
+              <li>Designed .NET Core backend search interfaces using OData with MongoDB and EFCore, optimized for performance.</li>
+              <li>Designed and improved distributed storage solutions with worldwide presence supporting production pipelines.</li>
+              <li>Engineered low-latency, high-availability, high-throughput systems and designed benchmarks to reach maximum hardware capacity (40Gbps).</li>
+              <li>Acted as Technical Advisor across teams, guiding architecture decisions and DevOps adoption strategies.</li>
+              <li>Authored Architecture Decision Records (ADRs) to formalize technical strategy, ensure knowledge transfer, and improve long-term maintainability.</li>
+              <li>Led cross-department technical conversations to break silos and standardize containerized infrastructure and deployment practices.</li>
+              <li>Evangelized BI tools and influenced business decisions based on analytics; provided KPIs to support InnerSource initiatives.</li>
+            </ul>
+          </article>
+
+          <article class="job">
+            <div class="jobHeader">
+              <div>
+                <div class="role">Software Developer — Kalida Technologies (Consultant)</div>
+                <div class="meta">Feb 2014 – Feb 2016 • Chambly, QC</div>
+              </div>
+              <div class="meta">Computer Vision • Consulting</div>
+            </div>
+            <ul>
+              <li>Consulted for Bombardier Transport; contributed to a bike fit system using skeletal detection and motion capture.</li>
+            </ul>
+          </article>
+
+          <article class="job">
+            <div class="jobHeader">
+              <div>
+                <div class="role">Software Developer Consultant — Bombardier Transportation</div>
+                <div class="meta">Feb 2014 – Feb 2016 • Saint-Bruno-de-Montarville, QC</div>
+              </div>
+              <div class="meta">C# • Architecture • Testing</div>
+            </div>
+            <ul>
+              <li>Refactored a business tool supporting rail projects with a domain-oriented onion architecture; migrated WinForms → WPF and upgraded .NET 3.5 → 4.5.</li>
+              <li>Added Dependency Injection, unit tests, and Gherkin functional tests; contributed to continuous improvement and agile practice improvements.</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="card black pad">
+        <div class="sectionTitle">
+          <h2>Creative universe</h2>
+          <div class="hint">why this doesn’t feel “corporate”</div>
+        </div>
+
+        <p style="margin:0; line-height:1.6; opacity:.9">
+          I bring a <strong style="color:var(--acid)">video-game mindset</strong> to engineering:
+          tight loops, clear UX for developers, and systems that reward good behavior.
+          If a pipeline is confusing, it’s a level design problem. If an incident is noisy, it’s feedback design.
+        </p>
+
+        <div style="margin-top:14px; border-top:1px solid rgba(255,255,255,.12); padding-top:14px">
+          <div class="sectionTitle" style="margin:0 0 10px">
+            <h2 style="font-size:18px;margin:0">Signature strengths</h2>
+            <div class="hint">how I show up</div>
+          </div>
+          <div class="projects" style="grid-template-columns:1fr">
+            <div class="proj">
+              <h3 class="name">Systems thinking</h3>
+              <p class="desc">I map the whole pipeline (people + tools + constraints) and optimize where it actually matters.</p>
+            </div>
+            <div class="proj">
+              <h3 class="name">Pragmatic standards</h3>
+              <p class="desc">Golden paths, templates, and guardrails — with escape hatches when reality demands it.</p>
+            </div>
+            <div class="proj">
+              <h3 class="name">Performance culture</h3>
+              <p class="desc">Measure → change → verify. Repeat. No vibes-only optimization.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI / LLM -->
+    <section class="card pad" id="ai" style="margin-top:18px">
+      <div class="sectionTitle">
+        <h2>AI / LLM leverage</h2>
+        <div class="hint">modern engineering acceleration</div>
+      </div>
+
+      <p style="margin:0; line-height:1.6">
+        I use LLMs as a force multiplier for strong engineering fundamentals — accelerating analysis, automation, and documentation
+        while keeping production safety, correctness, and observability as first-class constraints.
+      </p>
+
+      <div style="margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px">
+        <div style="border:2px solid var(--ink);border-radius:16px;padding:14px;background:#fff;box-shadow:6px 6px 0 rgba(16,17,20,.9)">
+          <div style="font-weight:900">Developer Productivity</div>
+          <div style="margin-top:6px; color:rgba(16,17,20,.78); line-height:1.5">
+            Summarize logs, explain failures, draft runbooks, generate reliable scaffolding, and speed up refactors.
+          </div>
+        </div>
+        <div style="border:2px solid var(--ink);border-radius:16px;padding:14px;background:#fff;box-shadow:6px 6px 0 rgba(16,17,20,.9)">
+          <div style="font-weight:900">Delivery & Ops Intelligence</div>
+          <div style="margin-top:6px; color:rgba(16,17,20,.78); line-height:1.5">
+            Extract signal from CI/CD metrics, detect anomalies, and support decisions with clearer KPIs and narratives.
+          </div>
+        </div>
+      </div>
+
+      <p class="tiny" style="margin-top:12px; color:rgba(16,17,20,.65)">
+        If AI helps, it should land as automation, tests, ADRs, or measurable process improvements.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="card pad" id="contact" style="margin-top:18px">
+      <div class="sectionTitle">
+        <h2>Contact</h2>
+        <div class="hint">say hi</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="border:2px solid var(--ink);border-radius:16px;padding:14px;background:#fff;box-shadow:6px 6px 0 rgba(16,17,20,.9)">
+          <div style="font-weight:900">Email</div>
+          <div style="margin-top:6px;color:rgba(16,17,20,.78)">chloe.girard.84@outlook.com</div>
+        </div>
+        <div style="border:2px solid var(--ink);border-radius:16px;padding:14px;background:#fff;box-shadow:6px 6px 0 rgba(16,17,20,.9)">
+          <div style="font-weight:900">Link</div>
+          <div style="margin-top:6px;display:flex;gap:10px;flex-wrap:wrap">
+            <a class="chip" href="https://www.linkedin.com/in/chlo%C3%A9-girard-2864b45b" target="_blank" rel="noreferrer">
+              <span class="dot"></span>LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="tiny" style="margin:14px 0 0;color:rgba(16,17,20,.65)">
+        Built for: cloud-native platforms • CI/CD systems • game delivery pipelines • performance engineering • architecture decisions.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    const d = new Date();
+    const fmt = d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"2-digit" });
+    document.getElementById("today").textContent = fmt;
+  </script>
+</body>
+</html>
